@@ -1,0 +1,16 @@
+{
+    "sachin": {
+        "username": "sachin",
+        "password": "sachin123",
+        "full_name": "sachin singh",
+        "email": "sachin@123",
+        "phone": "0000000000",
+        "dob": "000000",
+        "gender": "m",
+        "address": "patel nagar",
+        "course": "cse",
+        "year": "3rd",
+        "student_id": "0103CS231389",
+        "role": "user"
+    }
+}
