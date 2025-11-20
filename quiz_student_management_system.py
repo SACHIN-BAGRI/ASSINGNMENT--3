@@ -1,22 +1,6 @@
 """
 Quiz-enabled Student Management System with File Handling
 --------------------------------------------------------
-Features:
-1. Registration (User)
-2. Login (User / Admin)
-3. Quiz
-   - Category: DSA, DBMS, PYTHON
-   - Random 5 questions (shuffled)
-   - One question at a time with options
-4. Score storage in file:
-   enrollment, category, marks/total, datetime
-5. Update profile (name, email, branch(course), year, contact)
-6. View profile
-7. Logout / Exit
-
-Files used:
-- users.json  : stores registered users
-- scores.txt  : stores quiz result history
 """
 
 import json
@@ -27,17 +11,17 @@ from datetime import datetime
 USERS_FILE = "users.json"
 SCORES_FILE = "scores.txt"
 
-# In-memory storage
-students = {}
-curr_user = None      # username or "admin"
-curr_role = None      # "user" or "admin"
 
-# Hard-coded admin credentials
+students = {}
+curr_user = None      
+curr_role = None      
+
+
 ADMIN_CREDENTIALS = {
     "admin": "admin123"
 }
 
-# ---------------------- QUIZ QUESTIONS ---------------------- #
+
 
 QUIZ_QUESTIONS = {
     "DSA": [
@@ -129,10 +113,10 @@ QUIZ_QUESTIONS = {
 }
 
 
-# ---------------------- FILE HANDLING HELPERS ---------------------- #
+
 
 def load_users():
-    """Load users from USERS_FILE into 'students' dictionary."""
+    
     global students
     if os.path.exists(USERS_FILE):
         try:
@@ -145,13 +129,13 @@ def load_users():
 
 
 def save_users():
-    """Save 'students' dictionary into USERS_FILE."""
+   
     with open(USERS_FILE, "w", encoding="utf-8") as f:
         json.dump(students, f, indent=4)
 
 
 def append_score(enrollment, category, marks, total):
-    """Append quiz result to SCORES_FILE."""
+  
     now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     record = f"{enrollment},{category},{marks}/{total},{now}\n"
     with open(SCORES_FILE, "a", encoding="utf-8") as f:
@@ -159,7 +143,7 @@ def append_score(enrollment, category, marks, total):
 
 
 def get_user_scores(enrollment):
-    """Return list of score records for a particular enrollment."""
+   
     results = []
     if not os.path.exists(SCORES_FILE):
         return results
@@ -179,7 +163,7 @@ def get_user_scores(enrollment):
 
 
 def get_all_scores():
-    """Read all scores (for admin)."""
+   
     results = []
     if not os.path.exists(SCORES_FILE):
         return results
@@ -196,10 +180,9 @@ def get_all_scores():
     return results
 
 
-# ---------------------- AUTH & USER OPS ---------------------- #
 
 def register():
-    print("\n--- REGISTER NEW STUDENT ---")
+    print("- REGISTER NEW STUDENT -")
     username = input(" Enter Username: ").strip()
 
     if not username:
@@ -246,7 +229,7 @@ def register():
 
 def login():
     global curr_user, curr_role
-    print("\n--- LOGIN ---")
+    print("-LOGIN _")
     print(" 1. User Login")
     print(" 2. Admin Login")
     choice = input(" Choose option (1/2): ").strip()
@@ -262,7 +245,7 @@ def login():
             print(" Invalid admin credentials.")
         return
 
-    # user login
+   
     username = input(" Username: ").strip()
     password = input(" Password: ").strip()
 
@@ -281,7 +264,7 @@ def show_profile():
         return
 
     user = students[curr_user]
-    print("\n--- YOUR PROFILE ---")
+    print("- YOUR PROFILE -")
     for key, value in user.items():
         if key in ["password", "role", "username"]:
             continue
@@ -303,7 +286,7 @@ def update_profile():
         if new_val:
             user[key] = new_val
 
-    change_password = input(" Do you want to change your password? (y/n): ").strip().lower()
+    change_password = input(" Do you want to change your password (y/n): ").strip().lower()
     if change_password == "y":
         new_pass = input(" Enter new Password: ").strip()
         if new_pass:
@@ -325,10 +308,10 @@ def logout():
         print(" No user is currently logged in.")
 
 
-# ---------------------- QUIZ OPS ---------------------- #
+
 
 def choose_category():
-    print("\n--- QUIZ CATEGORY ---")
+    print("- QUIZ CATEGORY -")
     print(" 1. DSA")
     print(" 2. DBMS")
     print(" 3. PYTHON")
@@ -358,14 +341,14 @@ def attempt_quiz():
         print(" No questions available for this category.")
         return
 
-    # Shuffle and pick 5 questions
+    
     temp_questions = questions[:]
     random.shuffle(temp_questions)
     num_questions = min(5, len(temp_questions))
     selected = temp_questions[:num_questions]
 
     score = 0
-    print(f"\n--- {category} QUIZ ---")
+    print(f"-- {category} QUIZ -")
     for idx, q in enumerate(selected, start=1):
         print(f"\nQ{idx}. {q['question']}")
         for i, opt in enumerate(q["options"], start=1):
@@ -422,11 +405,11 @@ def admin_view_all_scores():
         print(f" {enr} | {category} | {marks} | {dt}")
 
 
-# ---------------------- MAIN MENU ---------------------- #
+
 
 def main_menu():
     while True:
-        print("\n===== STUDENT MANAGEMENT & QUIZ SYSTEM =====")
+        print(" __STUDENT MANAGEMENT & QUIZ SYSTEM __")
         print("1. Register")
         print("2. Login (User/Admin)")
         print("3. Attempt Quiz")
@@ -462,6 +445,5 @@ def main_menu():
             print(" Invalid option. Please enter a number between 1 and 9.")
 
 
-if __name__ == "__main__":
-    load_users()
-    main_menu()
+load_users()
+main_menu()
